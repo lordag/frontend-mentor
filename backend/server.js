@@ -1,3 +1,7 @@
+require('dotenv').config({
+  path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env'
+});
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -6,11 +10,11 @@ const cors = require('cors');
 const { getRepoList } = require('./utils/githubAuth');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Configura CORS per consentire richieste dal frontend React
 app.use(cors({
-  origin: 'http://localhost:5173', // Specifica il dominio che può accedere
+  origin: process.env.FRONTEND_URL, // Specifica il dominio che può accedere
   methods: ['GET', 'POST'], // Specifica i metodi HTTP consentiti
 }));
 

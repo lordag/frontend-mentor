@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const apiUrl = import.meta.env.VITE_API_URL;
 
 // Crea un thunk per ottenere il token con una GET
 export const fetchToken = createAsyncThunk(
     'token/fetchToken',
     async (_, { rejectWithValue }) => {
       try {
-        const response = await fetch('http://localhost:5000/generate-jwt'); // Cambiato in GET
+        const response = await fetch(`${apiUrl}/generate-jwt`); // Cambiato in GET
         if (!response.ok) {
           throw new Error('Token not found');
         }

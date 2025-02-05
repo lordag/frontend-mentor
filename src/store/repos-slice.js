@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 // Thunk per ottenere la lista dei repository
 export const fetchRepositories = createAsyncThunk(
     'repositories/fetchRepositories',
@@ -12,7 +14,7 @@ export const fetchRepositories = createAsyncThunk(
           throw new Error('Token non disponibile');
         }
   
-        const response = await fetch('http://localhost:5000/repositories', {
+        const response = await fetch(`${apiUrl}/repositories`, {
           headers: {
             Authorization: token, // Passa il token nell'intestazione
           },

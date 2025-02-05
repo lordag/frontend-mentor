@@ -3,7 +3,7 @@ const axios = require('axios');
 // Funzione per ottenere la lista delle installazioni
 const getInstallations = async (jwt) => {
   try {
-    const response = await axios.get('https://api.github.com/app/installations', {
+    const response = await axios.get(`${process.env.GITHUB_API_URL}/app/installations`, {
       headers: {
         Authorization: `Bearer ${jwt}`, // Usa il JWT per autenticare la richiesta
         Accept: 'application/vnd.github+json',
@@ -39,7 +39,7 @@ const getInstallationId = async (jwt) => {
 const getInstallationAccessToken = async (jwt, installationId) => {
   try {
     const response = await axios.post(
-      `https://api.github.com/app/installations/${installationId}/access_tokens`,
+      `${process.env.GITHUB_API_URL}/app/installations/${installationId}/access_tokens`,
       {},
       {
         headers: {
@@ -63,7 +63,7 @@ const getRepositories = async (jwt) => {
     // Ottieni il token di accesso per l'installazione
     const installationAccessToken = await getInstallationAccessToken(jwt, installationId);
     // Usa il token di accesso per fare una richiesta ai repository
-    const response = await axios.get('https://api.github.com/installation/repositories', {
+    const response = await axios.get(`${process.env.GITHUB_API_URL}/installation/repositories`, {
       headers: {
         Authorization: `Bearer ${installationAccessToken}`,
         Accept: 'application/vnd.github+json',
@@ -81,7 +81,7 @@ const getRepositories = async (jwt) => {
 const getFileContent = async (repoOwner, repoName, filePath, token) => {
   try {
     const response = await axios.get(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+      `${process.env.GITHUB_API_URL}/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -122,13 +122,5 @@ const getRepoList = async (jwt) => {
     throw new Error('Errore nel recupero dei repository');
   }
 };
-// {
-//   "preview": "demo.png",
-//   "tag": ['Html', 'Css', 'Javascript'],
-//   "title": "Interactive rating component",
-//   "description": "Interactive rating component challenge from Frontend Mentor",
-//   "github": "https://github.com/lordag/fm-12-interactive-rating-component",
-//   "live": "https://lordag.github.io/fm-12-interactive-rating-component/"
-// }
 
 module.exports = { getRepoList };

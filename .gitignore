@@ -26,3 +26,4 @@ dist-ssr
 *.drawio
 *.env
 /backend/*.pem
+.env.production
