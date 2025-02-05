@@ -1,0 +1,16 @@
+[app]
+name = "lordag-exp"
+
+[build]
+  builder = "heroku/buildpacks:nodejs"
+  [build.args]
+    NODE_ENV = "production"
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]

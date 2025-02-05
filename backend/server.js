@@ -19,7 +19,7 @@ app.use(cors({
 }));
 
 // Leggi la tua chiave privata
-const privateKey = fs.readFileSync('./repo-reader-key.pem', 'utf8'); // Inserisci qui il percorso della tua chiave privata
+const privateKey = process.env.NODE_ENV === 'production' ? process.env.PRIVATE_KEY :  fs.readFileSync('./repo-reader-key.pem', 'utf8'); // Inserisci qui il percorso della tua chiave privata
 const APP_ID = '1085802'; // Sostituisci con il tuo App ID GitHub
 
 app.get('/generate-jwt', (req, res) => {
