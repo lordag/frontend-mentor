@@ -56,13 +56,9 @@ const getInstallationAccessToken = async (jwt, installationId) => {
   }
 };
 
-const getRepositories = async (jwt) => {
+const getRepositories = async (installationAccessToken) => {
+  console.log(">>", installationAccessToken)
   try {
-    // Ottieni l'ID dell'installazione usando il JWT
-    const installationId = await getInstallationId(jwt);
-    // Ottieni il token di accesso per l'installazione
-    const installationAccessToken = await getInstallationAccessToken(jwt, installationId);
-    // Usa il token di accesso per fare una richiesta ai repository
     const response = await axios.get(`${process.env.GITHUB_API_URL}/installation/repositories`, {
       headers: {
         Authorization: `Bearer ${installationAccessToken}`,
@@ -106,7 +102,7 @@ const getRepoList = async (jwt) => {
     // Ottieni il token di accesso per l'installazione
     const installationAccessToken = await getInstallationAccessToken(jwt, installationId);
     // Ottieni la lista dei repository
-    const repositories = await getRepositories(jwt);
+    const repositories = await getRepositories(installationAccessToken);
     for (let repo of repositories){
       const {id, name, created_at, has_pages, html_url} = repo;
       const repo_info = await getFileContent('lordag', name, 'info.json', installationAccessToken);
